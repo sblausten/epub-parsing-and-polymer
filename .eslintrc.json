@@ -1,0 +1,12 @@
+{
+    "extends": "google",
+    "rules": {
+      "switch-colon-spacing": ["error", {"after": true, "before": false}]
+    },
+    "plugins": ["jasmine"],
+    "env": {
+      "node": true,
+      "jasmine": true
+    }
+
+}

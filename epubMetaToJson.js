@@ -4,10 +4,7 @@ const fs = require('fs');
 
 
 fs.readdir('./testEpubs/', function(err, filenames) {
-  if (err) {
-    onError(err);
-    return;
-  }
+  if (err) return console.log('Error reading directory: ' + err);
   filenames.forEach(function(filename) {
     try {
       processEpub(filename);

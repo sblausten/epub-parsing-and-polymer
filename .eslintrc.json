@@ -1,12 +1,21 @@
 {
-    "extends": "google",
-    "rules": {
-      "switch-colon-spacing": ["error", {"after": true, "before": false}]
-    },
-    "plugins": ["jasmine"],
-    "env": {
-      "node": true,
-      "jasmine": true
-    }
-
+  "extends": ["eslint:recommended", "google"],
+  "parserOptions": {
+    "ecmaVersion": 6
+  },
+  "env": {
+    "browser": true
+  },
+  "plugins": [
+    "html"
+  ],
+  "rules": {
+    "brace-style": "off",
+    "new-cap": ["error", { "capIsNewExceptions": ["Polymer"] }],
+    "no-var": "off",
+    "require-jsdoc": "off"
+  },
+  "globals": {
+    "Polymer": true
+  }
 }

@@ -11,5 +11,9 @@
     "lint:javascript": "eslint . --ext js,html --ignore-path .gitignore",
     "test": "polymer test",
     "test:integration": "polymer build # test that psk builds without error with the CLI"
+  },
+  "dependencies": {
+    "epub": "^0.1.6",
+    "fs-path": "0.0.23"
   }
 }

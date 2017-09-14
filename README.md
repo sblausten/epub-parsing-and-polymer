@@ -2,12 +2,12 @@
 
 ### To setup locally
 ```bash
-git clone [https://github.com/sblausten/epub-parsing-and-polymer.git](https://github.com/sblausten/epub-parsing-and-polymer.git)
+git clone https://github.com/sblausten/epub-parsing-and-polymer.git
 cd epub-parsing-and-polymer
 npm i
 ```
 
-#### To run test script for extracting metadata from epub files included
+#### To run script for extracting metadata from epub files
 ```bash
 node epubMetaToJson.js
 ```
@@ -20,8 +20,8 @@ Navigate to localhost:8081 in browser.
 
 ### Issues encountered and progress with tasks
 
-I couldn't find contributors in the meta data accessible through the suggested
-epub library so I used creator instead.
+I couldn't find the 'contributors' field in the meta data accessible through the
+suggested epub parsing utility so I used 'creator' instead.
 
 I spent a while trying to extract the contributor field from the xml in
 content.opf but ran out of time when dealing with unzipping the epub files and
@@ -29,6 +29,8 @@ parsing using an in memory buffer rather than writing the xml to a new file each
 time using a stream.
 
 I didn't get a chance to write tests.
+
+All other tasks were completed.
 
 ### Requirements:
 #### Task 1:

@@ -2,7 +2,6 @@ const EPub = require('epub');
 const fspath = require('fs-path');
 const fs = require('fs');
 
-
 fs.readdir('./testEpubs/', function(err, filenames) {
   if (err) return console.log('Error reading directory: ' + err);
   filenames.forEach(function(filename) {
@@ -15,20 +14,21 @@ fs.readdir('./testEpubs/', function(err, filenames) {
 });
 
 function processEpub(filename) {
-  var epub = new EPub('./testEpubs/' + filename);
-  epub.on('end', function(){
+  var targetEpubPath = './testEpubs/' + filename;
+  var epub = new EPub(targetEpubPath);
+  epub.on('end', function() {
     var fileNumber = filename.substr(0, filename.lastIndexOf('.'));
-    var targetFilePath = './testEpubs/metadata/' + fileNumber + '/index.json';
-    saveToJsonFile(getMetadata(epub), targetFilePath);
+    var targetFilePath = './testEpubsData/' + fileNumber + '/index.json';
+    saveToJsonFile(getMetadata(epub, targetEpubPath), targetFilePath);
   });
   epub.parse();
 }
 
-function getMetadata(epub) {
+function getMetadata(epub, targetEpubPath) {
   return {
-    'title':epub.metadata.title,
-    'contributors':[epub.metadata.creator]
-  }
+    'title': epub.metadata.title,
+    'contributors': [epub.metadata.creator],
+  };
 }
 
 function saveToJsonFile(metadata, path) {
@@ -37,8 +37,8 @@ function saveToJsonFile(metadata, path) {
 }
 
 function writeToFile(content, path) {
-    fspath.writeFile(path, content, function (err) {
-      if (err) console.log('File writing error for ' + path + ' with: ' + err);
-      console.log("Data written to: " + path);
-    });
+  fspath.writeFile(path, content, function(err) {
+    if (err) console.log('File writing error for ' + path + ' with: ' + err);
+    console.log('Data written to: ' + path);
+  });
 }

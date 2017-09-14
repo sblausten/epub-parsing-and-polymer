@@ -16,22 +16,41 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style include="shared-styles">
       :host {
         display: block;
+        padding: 1em;
+      }
 
-        padding: 10px;
+      input, button {
+        display: block;
+        padding: 1em;
+        margin: 1em
       }
     </style>
 
     <div class="card">
-      <div class="circle">1</div>
-      <h1>View One</h1>
-      <p>Ut labores minimum atomorum pro. Laudem tibique ut has.</p>
-      <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
+      <h1>Sign In</h1>
+      <form class="pure-form">
+        <fieldset>
+          <input type="email" placeholder="Email" id="email" required>
+          <input type="password" placeholder="Password" pattern=".{8,20}" onchange="setPattern(this, form)" id="password" required></input>
+          <input type="password" placeholder="Re-type Password" pattern=".{8,20}" onchange="checkMatch(this)" id="confirmPassword" required></input>
+          <button type="submit" class="pure-button pure-button-primary">Sign In</button>
+        </fieldset>
+      </form>
     </div>
   </template>
 
   <script>
     class MyView1 extends Polymer.Element {
       static get is() { return 'my-view1'; }
+    }
+
+    function setPattern(input, form) {
+      input.setCustomValidity(input.validity.patternMismatch ? 'Must have at least 8 characters' : '');
+      if(input.checkValidity()) form.confirmPassword.pattern = input.value;
+    }
+
+    function checkMatch(input) {
+      input.setCustomValidity(input.validity.patternMismatch ? 'Please enter the same Password as above' : '');
     }
 
     window.customElements.define(MyView1.is, MyView1);

@@ -12,6 +12,10 @@ npm i
 node epubMetaToJson.js
 ```
 
+The script currently targets a directory testEpubs with 5 examples.
+
+To add more epubs to parse please add them to this directory. 
+
 #### To view Polymer form and test:
 ```bash
 polymer serve

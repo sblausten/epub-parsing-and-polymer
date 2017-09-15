@@ -1,8 +1,11 @@
 const EPub = require('epub');
 const fspath = require('fs-path');
 const fs = require('fs');
+const targetDir = './testEpubs/';
+const targetDataDir = './testEpubsData/';
+const targetDataFile = '/index.json';
 
-fs.readdir('./testEpubs/', function(err, filenames) {
+fs.readdir(targetDir, function(err, filenames) {
   if (err) return console.log('Error reading directory: ' + err);
   filenames.forEach(function(filename) {
     try {
@@ -14,11 +17,11 @@ fs.readdir('./testEpubs/', function(err, filenames) {
 });
 
 function processEpub(filename) {
-  var targetEpubPath = './testEpubs/' + filename;
+  var targetEpubPath = targetDir + filename;
   var epub = new EPub(targetEpubPath);
   epub.on('end', function() {
     var fileNumber = filename.substr(0, filename.lastIndexOf('.'));
-    var targetFilePath = './testEpubsData/' + fileNumber + '/index.json';
+    var targetFilePath = targetDataDir + fileNumber + targetDataFile;
     saveToJsonFile(getMetadata(epub, targetEpubPath), targetFilePath);
   });
   epub.parse();
@@ -27,7 +30,7 @@ function processEpub(filename) {
 function getMetadata(epub, targetEpubPath) {
   return {
     'title': epub.metadata.title,
-    'contributors': [epub.metadata.creator],
+    'creator': epub.metadata.creator,
   };
 }
 

@@ -11,7 +11,7 @@ fs.readdir(targetDir, function(err, filenames) {
     try {
       processEpub(filename);
     } catch (err) {
-      console.log('Epub ' + filename + ' error: ' + err);
+      console.err('Epub ' + filename + ' error: ' + err);
     }
   });
 });
@@ -19,29 +19,45 @@ fs.readdir(targetDir, function(err, filenames) {
 function processEpub(filename) {
   var targetEpubPath = targetDir + filename;
   var epub = new EPub(targetEpubPath);
+  var fileNumber = filename.substr(0, filename.lastIndexOf('.'));
+  var targetFilePath = targetDataDir + fileNumber + targetDataFile;
   epub.on('end', function() {
-    var fileNumber = filename.substr(0, filename.lastIndexOf('.'));
-    var targetFilePath = targetDataDir + fileNumber + targetDataFile;
-    saveToJsonFile(getMetadata(epub, targetEpubPath), targetFilePath);
+    saveToJsonFile(getMetadata(epub), targetFilePath)
+      .catch(function(err) {
+        console.err(err);
+      });
   });
   epub.parse();
 }
 
-function getMetadata(epub, targetEpubPath) {
+function getMetadata(epub) {
   return {
     'title': epub.metadata.title,
     'creator': epub.metadata.creator,
   };
 }
 
-function saveToJsonFile(metadata, path) {
-  var content = JSON.stringify(metadata, null, 2);
-  writeToFile(content, path);
+function saveToJsonFile(metadataCallback, path) {
+  var promise = new Promise( function(resolve, reject) {
+    var content = JSON.stringify(metadataCallback, null, 2);
+    writeToFile(content, path).then(function() {
+      resolve();
+    }).catch(function(err) {
+      console.err(err);
+      reject(err);
+    });
+  });
+  return promise;
 }
 
 function writeToFile(content, path) {
-  fspath.writeFile(path, content, function(err) {
-    if (err) console.log('File writing error for ' + path + ' with: ' + err);
-    console.log('Data written to: ' + path);
-  });
+  var promise = new Promise( function(resolve, reject) {
+      fspath.writeFile(path, content, function(err) {
+        if (err) reject('File writing error for ' + path + ' with: ' + err);
+        console.log('Data written to: ' + path);
+        resolve();
+      });
+    }
+  );
+  return promise;
 }

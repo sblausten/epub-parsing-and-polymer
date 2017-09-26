@@ -10,7 +10,8 @@
     "lint": "npm run lint:javascript && polymer lint",
     "lint:javascript": "eslint . --ext js,html --ignore-path .gitignore",
     "test": "polymer test",
-    "test:integration": "polymer build # test that psk builds without error with the CLI"
+    "test:integration": "polymer build # test that psk builds without error with the CLI",
+    "test-epub-script": "node epubMetaToJson.js"
   },
   "dependencies": {
     "epub": "^0.1.6",
